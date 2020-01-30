@@ -19,4 +19,4 @@ coverage.xml
 *.pot
 *.pyc
 __pycache__/
-Tree-Con\project\settings\local.py
+project/settings/local.py

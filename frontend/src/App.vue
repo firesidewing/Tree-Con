@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <Login v-bind:overlay="!LoggedOn" v-show="ShowOnline && !LoggedOn"></Login>
+    <Login v-on:auth-success="LoggedOn = true" v-show="ShowOnline && !LoggedOn"></Login>
     <v-navigation-drawer v-model="drawer" app clipped dark color="primary">
       <v-list dense>
         <v-list-item link v-for="Plot in Plots" v-bind:key="Plot.PlotNumber">
@@ -85,19 +85,24 @@ export default {
   mounted() {
     window.addEventListener("online", this.UpdateOnlineStatus);
     window.addEventListener("offline", this.UpdateOnlineStatus);
-    if(localStorage.TokenConfig){
+    if(localStorage.TokenConfig != "undefined"){
       this.Config = this.$localStorage.get('TokenConfig')
       this.LoggedOn = true
-      this.GetLocations()
     }
   },
   watch: {
-    onLine(v) {
+    Internet(v) {
       if (v) {
         this.ShowOnline = true;
         setTimeout(() => {
           this.ShowOnline = false;
         }, 1000);
+      }
+    },
+    LoggedOn(){
+      if(this.LoggedOn){
+        this.Config = this.$localStorage.get('TokenConfig')
+        this.GetLocations();
       }
     }
   },

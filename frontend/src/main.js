@@ -3,6 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import './registerServiceWorker'
 import VueLocalStorage from 'vue-localstorage'
+import '@mdi/font/css/materialdesignicons.css'
 
 Vue.use(VueLocalStorage)
 

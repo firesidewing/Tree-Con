@@ -5,33 +5,37 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-overlay v-bind:value="overlay">
-              <v-card class="elevation-12">
-                <v-toolbar color="secondary" dark flat>
-                  <v-toolbar-title>Login</v-toolbar-title>
-                </v-toolbar>
-                <v-card-text>
-                  <v-form>
-                    <v-text-field
-                      v-model="Params.username"
-                      label="Login"
-                      name="login"
-                      prepend-icon="person"
-                      type="text"
-                    />
-                    <v-text-field
-                      v-model="Params.password"
-                      label="Password"
-                      name="password"
-                      prepend-icon="lock"
-                      type="password"
-                    />
-                  </v-form>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn color="secondary" @click.stop="GetToken">Login</v-btn>
-                </v-card-actions>
-              </v-card>
+              <v-row align="center" justify="center">
+                <v-col cols="12">
+                  <v-card class="elevation-12" light>
+                    <v-toolbar color="secondary" dark flat>
+                      <v-toolbar-title>Login</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                      <v-form>
+                        <v-text-field
+                          v-model="Params.username"
+                          label="Login"
+                          name="login"
+                          type="text"
+                          prepend-icon="mdi-account"
+                        />
+                        <v-text-field
+                          v-model="Params.password"
+                          label="Password"
+                          name="password"
+                          prepend-icon="mdi-lock"
+                          type="password"
+                        />
+                      </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer />
+                      <v-btn color="secondary" @click.stop="GetToken">Login</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-overlay>
           </v-col>
         </v-row>
@@ -47,8 +51,7 @@ const LoginUrl = "https://tree-con.herokuapp.com/api/v1/auth/login/";
 
 export default {
   props: {
-    source: String,
-    overlay: Boolean
+    source: String
   },
   data: () => ({
     Config: {
@@ -60,14 +63,15 @@ export default {
       username: "",
       password: "",
       email: ""
-    }
+    },
+    overlay: true
   }),
   localStorage: {
     TokenConfig: {
-      type: Object      
+      type: Object
     },
     UserParams: {
-      type: Object      
+      type: Object
     }
   },
   methods: {
@@ -79,7 +83,7 @@ export default {
           v.Config.headers.Authorization = "Token " + response.data.key;
           v.$localStorage.set("TokenConfig", v.Config);
           v.$localStorage.set("UserParams", v.Params);
-          v.overlay = false;
+          v.$emit('auth-success')
         })
         .catch(function(error) {
           alert(error);

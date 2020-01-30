@@ -1,12 +1,7 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      clipped
-      dark
-      color=primary
-    >
+    <Login v-if="ShowOnline && !LoggedOn"></Login>
+    <v-navigation-drawer v-model="drawer" app clipped dark color="primary">
       <v-list dense>
         <v-list-item link v-for="Plot in Plots" v-bind:key="Plot.PlotNumber">
           <v-list-item-action>
@@ -15,16 +10,11 @@
           <v-list-item-content>
             <v-list-item-title>Plot {{Plot.PlotNumber}}</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>        
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-      clipped-left
-      color=primary
-      dark
-    >
+    <v-app-bar app clipped-left color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Recce</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -35,23 +25,15 @@
         item-text="name"
         item-value="name"
         class="mt-3"
-        clearable=true
+        clearable="true"
         dense
       ></v-autocomplete>
     </v-app-bar>
 
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col class="shrink">
-            
-          </v-col>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col class="shrink"></v-col>
         </v-row>
       </v-container>
     </v-content>
@@ -63,55 +45,94 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import Login from './components/Login'
+
+const Api = {
+  Base: "https://tree-con.herokuapp.com/api/v1/",
+  Login: "auth/login/",
+  LatLong: "core/lat-longs",
+  Locations: "core/locations",
+  PlotData: "core/plot-datas",
+  Plots: "core/plot"
+};
 
 export default {
-  name: 'App',
+  name: "TreeCon",
+  components: {
+    Login
+  },
   data: () => ({
     drawer: false,
+    Internet: navigator.onLine,
+    ShowOnline: true,
+    LoggedOn: false,
     LocationTimer: null,
     Locations: [],
-    SetLocation: '',
-    Plots: [{
-      PlotNumber: 1
-    }],
+    SetLocation: "",
+    Plots: [
+      {
+        PlotNumber: 1
+      }
+    ],
     Config: {
-      headers: { Authorization: `` }
+      headers: {
+        Authorization: ``
+      }
     },
     Params: {
-      username: "Josh",
-      password: "F1res1dew1ng",
-      email:""
+      username: "",
+      password: "",
+      email: ""
     }
   }),
-  created: function(){
+  created() {
     this.GetToken();
   },
+  mounted() {
+    window.addEventListener("online", this.UpdateOnlineStatus);
+    window.addEventListener("offline", this.UpdateOnlineStatus);
+  },
+  watch: {
+    onLine(v) {
+      if (v) {
+        this.ShowOnline = true;
+        setTimeout(() => {
+          this.ShowOnline = false;
+        }, 1000);
+      }
+    }
+  },
   methods: {
+    updateOnlineStatus: function(e) {
+      const { type } = e;
+      this.Internet = type === "online";
+    },
     GetLocations: function() {
       let v = this;
-      axios.get("http://127.0.0.1:8000/api/v1/core/locations/", v.Config)
-      .then(function (response) {
-        v.Locations = response.data.results;
-      })
-      .catch(function(error) {
-        alert(error)
-        clearInterval(v.LocationTimer);
-        v.LocationTimer = null;
-      })
+      axios
+        .get(Api.Base + Api.Locations, v.Config)
+        .then(function(response) {
+          v.Locations = response.data.results;
+        })
+        .catch(function(error) {
+          alert(error);
+          clearInterval(v.LocationTimer);
+          v.LocationTimer = null;
+        });
     },
-    GetToken: function(){
+    GetToken: function() {
       let v = this;
-      axios.post("http://127.0.0.1:8000/api/v1/auth/login/", 
-      v.Params,
-      v.Config)
-      .then(function (response) {
-        v.Config.headers.Authorization = "Token " + response.data.key;
-        v.GetLocations();
-      })
-      .catch(function(error) {
-        alert(error)
-      })
+      axios
+        .post(Api.Base + Api.Login, v.Params, v.Config)
+        .then(function(response) {
+          v.Config.headers.Authorization = "Token " + response.data.key;
+          v.GetLocations();
+          v.LoggedOn = true;
+        })
+        .catch(function(error) {
+          alert(error);
+        });
     }
   }
 };

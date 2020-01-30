@@ -9,7 +9,7 @@ except ImportError:
 
     SECRET_KEY = config('SECRET_KEY')
     DEBUG = config('DEBUG', default=False, cast=bool)
-    ALLOWED_HOSTS = ['forest-recon.herokuapp.com']
+    ALLOWED_HOSTS = ['tree-con.herokuapp.com']
 
     DATABASES = {
         'default': dj_database_url.config(

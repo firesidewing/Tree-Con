@@ -8,3 +8,4 @@ django-rest-auth
 factory-boy
 psycopg2
 whitenoise==5.0.1
+gunicorn==20.0.4

@@ -1,11 +1,34 @@
-from .env import ABS_PATH, ENV_BOOL, ENV_STR, ENV_LIST, ENV_DEC, ENV_INT
-
-import dj_database_url
 from corsheaders.defaults import default_headers
+import os
 
-DEBUG = ENV_BOOL("DEBUG", False)
-SECRET_KEY = ENV_STR("SECRET_KEY", "asjkldfkjh5hkasdui54" if DEBUG else "")
-ALLOWED_HOSTS = ENV_LIST("ALLOWED_HOSTS", ",", ["*"] if DEBUG else [])
+try:
+    from .local import *
+except ImportError:
+    import dj_database_url
+    from decouple import config
+
+    SECRET_KEY = config('SECRET_KEY')
+    DEBUG = config('DEBUG', default=False, cast=bool)
+    ALLOWED_HOSTS = ['forest-recon.herokuapp.com']
+
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
+    }
+    # SECURE_SSL_REDIRECT = True
+    # SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # SECURE_HSTS_SECONDS = 15768000
+    # SECURE_BROWSER_XSS_FILTER = True
+    # SECURE_CONTENT_TYPE_NOSNIFF = True
+    # X_FRAME_OPTIONS = 'DENY'
+    # SECURE_HSTS_PRELOAD = True
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    pass
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -29,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
@@ -57,9 +81,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "project.wsgi.application"
-
-DATABASES = {"default": dj_database_url.config()}
-
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -96,24 +117,12 @@ USE_TZ = True
 
 SITE_ID = 1
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # static and media
 # if STATIC_ROOT ends with STATIC_URL, it makes nginx static serve config easy, likewise for media
-STATIC_URL = ENV_STR("STATIC_URL", "/static/")
-STATIC_ROOT = ENV_STR("STATIC_ROOT", ABS_PATH("static"))
-MEDIA_URL = ENV_STR("MEDIA_URL", "/media/")
-MEDIA_ROOT = ABS_PATH(ENV_STR("MEDIA_ROOT", "media"))
-
-# email settings
-EMAIL_BACKEND = "django.core.mail.backends.{}.EmailBackend".format(
-    ENV_STR("EMAIL_BACKEND", "console" if DEBUG else "smtp")
-)
-EMAIL_HOST = ENV_STR("EMAIL_HOST", "localhost")
-EMAIL_HOST_USER = ENV_STR("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = ENV_STR("EMAIL_HOST_PASSWORD", "")
-EMAIL_PORT = ENV_INT("EMAIL_PORT", 25)
-EMAIL_USE_TLS = ENV_BOOL("EMAIL_USE_TLS", False)
-SERVER_EMAIL = ENV_STR("SERVER_EMAIL", "webmaster@localhost")
-DEFAULT_FROM_EMAIL = ENV_STR("DEFAULT_FROM_EMAIL", SERVER_EMAIL)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -126,13 +135,6 @@ REST_FRAMEWORK = {
     "COERCE_DECIMAL_TO_STRING": False,
 }
 
-# log to console, assume the supervisor/system runner will take care of the logs
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
-    "loggers": {"": {"handlers": ["console"], "level": ENV_STR("LOG_LEVEL", "INFO")}},
-}
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

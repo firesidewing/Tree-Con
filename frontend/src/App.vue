@@ -116,3 +116,7 @@ export default {
   }
 };
 </script>
+
+<style lang="sass">
+  @import '../node_modules/roboto-fontface/css/roboto/roboto-fontface.css'
+</style>

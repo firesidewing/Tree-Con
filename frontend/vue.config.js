@@ -4,6 +4,6 @@ module.exports = {
   ],
 
   pwa: {
-    name: 'Recce'
+    name: 'TreeCon'
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <Login v-if="ShowOnline && !LoggedOn"></Login>
+    <Login v-bind:overlay="!LoggedOn" v-show="ShowOnline && !LoggedOn"></Login>
     <v-navigation-drawer v-model="drawer" app clipped dark color="primary">
       <v-list dense>
         <v-list-item link v-for="Plot in Plots" v-bind:key="Plot.PlotNumber">
@@ -16,7 +16,7 @@
 
     <v-app-bar app clipped-left color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Recce</v-toolbar-title>
+      <v-toolbar-title>Tree - Con</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-autocomplete
         v-model="SelectedLocation"
@@ -25,7 +25,7 @@
         item-text="name"
         item-value="name"
         class="mt-3"
-        clearable="true"
+        clearable
         dense
       ></v-autocomplete>
     </v-app-bar>
@@ -50,7 +50,6 @@ import Login from './components/Login'
 
 const Api = {
   Base: "https://tree-con.herokuapp.com/api/v1/",
-  Login: "auth/login/",
   LatLong: "core/lat-longs",
   Locations: "core/locations",
   PlotData: "core/plot-datas",
@@ -69,7 +68,7 @@ export default {
     LoggedOn: false,
     LocationTimer: null,
     Locations: [],
-    SetLocation: "",
+    SelectedLocation: "",
     Plots: [
       {
         PlotNumber: 1
@@ -80,18 +79,17 @@ export default {
         Authorization: ``
       }
     },
-    Params: {
-      username: "",
-      password: "",
-      email: ""
-    }
   }),
   created() {
-    this.GetToken();
   },
   mounted() {
     window.addEventListener("online", this.UpdateOnlineStatus);
     window.addEventListener("offline", this.UpdateOnlineStatus);
+    if(localStorage.TokenConfig){
+      this.Config = this.$localStorage.get('TokenConfig')
+      this.LoggedOn = true
+      this.GetLocations()
+    }
   },
   watch: {
     onLine(v) {
@@ -119,20 +117,12 @@ export default {
           alert(error);
           clearInterval(v.LocationTimer);
           v.LocationTimer = null;
+          v.RetryLogin()
         });
     },
-    GetToken: function() {
-      let v = this;
-      axios
-        .post(Api.Base + Api.Login, v.Params, v.Config)
-        .then(function(response) {
-          v.Config.headers.Authorization = "Token " + response.data.key;
-          v.GetLocations();
-          v.LoggedOn = true;
-        })
-        .catch(function(error) {
-          alert(error);
-        });
+    RetryLogin: function() {
+      let v = this
+      v.LoggedOn = false
     }
   }
 };

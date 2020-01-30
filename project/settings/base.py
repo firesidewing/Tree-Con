@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "rest_auth",
+    "admin_honeypot",
     
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",

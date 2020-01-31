@@ -24,6 +24,7 @@
         label="Location"
         item-text="name"
         item-value="name"
+        @change="LocationChange"
         class="mt-3"
         clearable
         dense
@@ -128,6 +129,20 @@ export default {
     RetryLogin: function() {
       let v = this
       v.LoggedOn = false
+    },
+    LocationChange: function() {
+      let v = this;
+      axios
+        .get(Api.Base + Api.Locations, v.Config)
+        .then(function(response) {
+          v.Locations = response.data.results;
+        })
+        .catch(function(error) {
+          alert(error);
+          clearInterval(v.LocationTimer);
+          v.LocationTimer = null;
+          v.RetryLogin()
+        });
     }
   }
 };

@@ -8,7 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'core/lat-longs', LatLongViewSet)
 router.register(r'core/locations', LocationViewSet)
 router.register(r'core/plot-datas', PlotDataViewSet)
-router.register(r'core/plot', PlotViewSet)
+router.register(r'core/plot', PlotViewSet, basename='PlotView')
 
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),

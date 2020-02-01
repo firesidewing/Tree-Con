@@ -58,9 +58,9 @@
     </v-overlay>
 
     <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col class="shrink">
+      <v-container fluid>
+        <v-row>
+          <v-col>
             <v-fade-transition>
               <Table 
                 v-if="SelectedPlotData != ''" 

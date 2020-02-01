@@ -25,5 +25,5 @@ class PlotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plot
-        fields = ('id', 'userkey', 'plot_number', 'location', 'plot_data')
+        fields = ('id', 'userkey', 'plot_number', 'location')
         read_only_fields = ('userkey',)

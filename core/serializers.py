@@ -18,11 +18,12 @@ class LocationSerializer(serializers.ModelSerializer):
 class PlotDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlotData
-        fields = ('url', 'plot_key', 'tree', 'species', 'dbh', 'height', 'gross_piece_size', 'net_piece_size',)
+        fields = ('id', 'plot_key', 'tree', 'species', 'dbh', 'height', 'gross_piece_size', 'net_piece_size',)
 
 
 class PlotSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Plot
-        fields = ('id', 'userkey', 'plot_number', 'location',)
+        fields = ('id', 'userkey', 'plot_number', 'location', 'plot_data')
         read_only_fields = ('userkey',)

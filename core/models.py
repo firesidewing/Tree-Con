@@ -126,5 +126,6 @@ class Plot(models.Model):
         null=False,
         on_delete=models.CASCADE,
     )
+
     def __str__(self):
         return str(self.userkey) + "-" + str(self.location) + "-Plot" + str(self.plot_number)

@@ -12,16 +12,16 @@
           <v-list-item-action>
             <v-icon>mdi-pine-tree</v-icon>
           </v-list-item-action>
-          <v-list-item-content @click="SelectedPlotData = Plot.PlotData">
+          <v-list-item-content @click="SelectedPlotData = Plot.PlotData; drawer = false">
             <v-list-item-title>Plot {{Plot.plot_number}}</v-list-item-title>
           </v-list-item-content>
           <v-btn 
-              @click.stop="DeletePlot(Plot.plot_number)"
-              text 
-              icon 
-              color="accent">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
+            @click.stop="DeletePlot(Plot.plot_number)"
+            text 
+            icon 
+            color="accent">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
         </v-list-item>
         
       </v-list>

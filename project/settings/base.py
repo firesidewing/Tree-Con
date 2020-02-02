@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "allauth.account",
     "rest_auth",
     "admin_honeypot",
-    'rest_framework_tracking',
     
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",

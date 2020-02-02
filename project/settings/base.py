@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "rest_auth",
     "admin_honeypot",
+    'rest_framework_tracking',
     
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",
@@ -143,9 +144,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = default_headers + ("content-disposition",)
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "https://tree-con.netlify.com/"
-]
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:8080",
+#     "http://localhost:8000",
+#     "http://127.0.0.1:8000",
+#     "https://tree-con.netlify.com/"
+# ]

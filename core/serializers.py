@@ -27,3 +27,16 @@ class PlotSerializer(serializers.ModelSerializer):
         model = Plot
         fields = ('id', 'userkey', 'plot_number', 'location')
         read_only_fields = ('userkey',)
+
+    def create(self, validated_data):
+        d = {
+            'plot_number': validated_data.get('plot_number', None),
+            'location_id': validated_data.get('location', None).id,
+            'userkey_id': validated_data.get('userkey', None).id
+        }
+        plot, created = Plot.objects.update_or_create(
+            location_id=d['location_id'],
+            plot_number=d['plot_number'],
+            userkey_id=d['userkey_id'],
+            defaults=d)
+        return plot

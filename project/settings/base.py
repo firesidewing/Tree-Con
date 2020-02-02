@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "rest_auth",
     "admin_honeypot",
+    'django_extensions',
     
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",
@@ -151,6 +152,13 @@ CORS_ALLOW_HEADERS = default_headers + ("content-disposition",)
 #     "http://127.0.0.1:8000",
 #     "https://tree-con.netlify.com/"
 # ]
+
+SHELL_PLUS_PRINT_SQL = True
+SHELL_PLUS_PRINT_SQL_TRUNCATE = None
+
+SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
+  reindent_aligned=True,
+)
 
 sentry_sdk.init(
     dsn="https://ce935786a77d497db2db4258364905cb@sentry.io/2166643",

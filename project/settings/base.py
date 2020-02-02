@@ -1,4 +1,6 @@
 from corsheaders.defaults import default_headers
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 import os
 
 try:
@@ -150,3 +152,12 @@ CORS_ALLOW_HEADERS = default_headers + ("content-disposition",)
 #     "http://127.0.0.1:8000",
 #     "https://tree-con.netlify.com/"
 # ]
+
+sentry_sdk.init(
+    dsn="https://ce935786a77d497db2db4258364905cb@sentry.io/2166643",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)

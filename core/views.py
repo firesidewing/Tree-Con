@@ -2,8 +2,14 @@ from rest_framework import viewsets
 
 from django_filters.rest_framework import DjangoFilterBackend
 from . import permissions
-from .models import LatLong, Location, PlotData, Plot
-from .serializers import LatLongSerializer, LocationSerializer, PlotDataSerializer, PlotSerializer
+from .models import LatLong, Location, PlotData, Plot, Species
+from .serializers import (
+    LatLongSerializer,
+    LocationSerializer,
+    PlotDataSerializer,
+    PlotSerializer,
+    SpeciesSerializer,
+)
 
 
 class LatLongViewSet(viewsets.ModelViewSet):
@@ -20,23 +26,28 @@ class LocationViewSet(viewsets.ModelViewSet):
 
 
 class PlotDataViewSet(viewsets.ModelViewSet):
-    queryset = PlotData.objects.all()
+    queryset = PlotData.objects.prefetch_related()
     serializer_class = PlotDataSerializer
     permission_classes = (permissions.PlotData,)
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['plot_key']
+    filterset_fields = ["plot_key"]
 
 
-class PlotViewSet(viewsets.ModelViewSet):    
+class PlotViewSet(viewsets.ModelViewSet):
     serializer_class = PlotSerializer
     permission_classes = (permissions.Plots,)
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['location']
+    filterset_fields = ["location"]
 
     def get_queryset(self):
         user = self.request.user.id
-        return Plot.objects.filter(userkey_id=user)
+        return Plot.objects.filter(userkey_id=user).prefetch_related()
 
     def perform_create(self, serializer):
         serializer.save(userkey=self.request.user)
 
+
+class SpeciesViewSet(viewsets.ModelViewSet):
+    queryset = Species.objects.all()
+    serializer_class = SpeciesSerializer
+    permission_classes = (permissions.Species,)

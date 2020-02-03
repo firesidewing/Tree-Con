@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import LatLong, Location, PlotData, Plot
+from .models import LatLong, Location, PlotData, Plot, Species
 
 
 class LatLongSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class PlotDataSerializer(serializers.ModelSerializer):
             "id",
             "plot_key",
             "tree",
-            "species",
+            "tree_species",
             "dbh",
             "height",
             "gross_piece_size",
@@ -44,15 +44,15 @@ class PlotDataSerializer(serializers.ModelSerializer):
         d = {
             "plot_key_id": validated_data.get("plot_key", None).id,
             "tree": validated_data.get("tree", None),
-            "species": validated_data.get("species", None),
+            "tree_species": validated_data.get("tree_species", None),
             "dbh": validated_data.get("dbh", None),
             "height": validated_data.get("height", None),
             "gross_piece_size": validated_data.get("gross_piece_size", None),
             "net_piece_size": validated_data.get("net_piece_size", None),
         }
         plot_data, created = PlotData.objects.update_or_create(
-            plot_key_id=d["plot_key_id"],
-            tree=d["tree"],
+            plot_key_id=d["plot_key_id"], 
+            tree=d["tree"], 
             defaults=d,
         )
         return plot_data
@@ -77,3 +77,13 @@ class PlotSerializer(serializers.ModelSerializer):
             defaults=d,
         )
         return plot
+
+
+class SpeciesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Species
+        fields = (
+            "id",
+            "species_name",
+            "loss_factor",
+        )

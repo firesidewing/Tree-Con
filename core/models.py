@@ -90,11 +90,11 @@ class PlotData(models.Model):
         null=False,
         on_delete=models.CASCADE,
     )
-    species = models.CharField(
-        max_length=255,
-        blank=False,
-        choices=SPECIES_CHOICES,
-        default=SPECIES_PL,
+    tree_species = models.ForeignKey(
+        'core.Species',
+        related_name='tree_species',
+        on_delete=models.CASCADE,
+        default=0
     )
     tree = models.IntegerField(
         blank=True,
@@ -129,3 +129,25 @@ class Plot(models.Model):
 
     def __str__(self):
         return str(self.userkey) + "-" + str(self.location) + "-Plot" + str(self.plot_number)
+
+
+class Species(models.Model):
+    """
+    information and constants relative to each species
+    """
+
+    species_name = models.CharField(
+        max_length=255,
+        blank=False
+    )
+
+    loss_factor = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=False,
+        null=False,
+        default=0
+    )
+
+    def __str__(self):
+        return str(self.species_name)

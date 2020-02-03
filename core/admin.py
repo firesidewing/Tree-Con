@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import LatLong, Location, PlotData, Plot
+from .models import LatLong, Location, PlotData, Plot, Species
 
 
 class LatLongAdmin(admin.ModelAdmin):
@@ -18,7 +18,7 @@ class LocationAdmin(admin.ModelAdmin):
 
 class PlotDataAdmin(admin.ModelAdmin):
     model = PlotData
-    list_display = ['plot_key']
+    list_display = ['plot_key', 'tree_species']
     search_fields = ['plot_key']
     list_select_related = True
 
@@ -30,7 +30,13 @@ class PlotAdmin(admin.ModelAdmin):
     list_select_related = True
 
 
+class SpeciesAdmin(admin.ModelAdmin):
+    model = Species
+    list_display = ['id', 'species_name', 'loss_factor']
+
+
 admin.site.register(LatLong, LatLongAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(PlotData, PlotDataAdmin)
 admin.site.register(Plot, PlotAdmin)
+admin.site.register(Species, SpeciesAdmin)

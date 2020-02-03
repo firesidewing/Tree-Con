@@ -43,6 +43,13 @@ class Location(models.Model):
         max_length=255,
         blank=False,
     )
+    baf = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=False,
+        null=False,
+        default=0
+    )
 
     def __str__(self):
         return str(self.name)
@@ -52,17 +59,6 @@ class PlotData(models.Model):
     """
     Input data for a particular plot
     """
-
-    SPECIES_PL = 'PL'
-    SPECIES_SX = 'SX'
-    SPECIES_BL = 'BL'
-    SPECIES_FD = 'FD'
-    SPECIES_CHOICES = [
-        (SPECIES_PL, 'Pine'),
-        (SPECIES_SX, 'Spruce'),
-        (SPECIES_BL, 'Balsam'),
-        (SPECIES_FD, 'Douglas Fir'),
-    ]
 
     dbh = models.IntegerField(
         blank=False,
@@ -110,6 +106,12 @@ class Plot(models.Model):
     Information on each plot
     """
 
+    TIMBER = [
+        ("Pi/Sx", "Pi/Sx"),
+        ("Sx/Pi", "Sx/Pi"),
+        ("Sx/Bl", "Sx/Bl"),
+    ]
+
     location = models.ForeignKey(
         'core.Location',
         related_name='plot',
@@ -126,6 +128,49 @@ class Plot(models.Model):
         null=False,
         on_delete=models.CASCADE,
     )
+    slope = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        default=0,
+        blank=False,
+        null=False
+    )
+    alive_trees = models.IntegerField(
+        blank=False,
+        null=False,
+        default=0
+    )
+    dead_pine = models.IntegerField(
+        blank=False,
+        null=False,
+        default=0
+    )
+    bd_percent = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        default=0,
+        blank=False,
+        null=False
+    )
+    gross_volume_ha = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        default=0,
+        blank=False,
+        null=False
+    )
+    net_volume_ha = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        default=0,
+        blank=False,
+        null=False
+    )
+    timber_type = models.CharField(
+        max_length=100,
+        choices=TIMBER,
+        default="Pi/Sx"
+    )    
 
     def __str__(self):
         return str(self.userkey) + "-" + str(self.location) + "-Plot" + str(self.plot_number)

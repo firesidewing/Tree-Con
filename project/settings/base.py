@@ -33,6 +33,7 @@ except ImportError:
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 INSTALLED_APPS = [
+    "scout_apm.django",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -152,6 +153,8 @@ CORS_ALLOW_HEADERS = default_headers + ("content-disposition",)
 #     "http://127.0.0.1:8000",
 #     "https://tree-con.netlify.com/"
 # ]
+
+SCOUT_NAME = "TreeCon"
 
 SHELL_PLUS_PRINT_SQL = True
 SHELL_PLUS_PRINT_SQL_TRUNCATE = None

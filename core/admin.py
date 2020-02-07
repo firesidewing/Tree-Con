@@ -18,7 +18,7 @@ class LocationAdmin(admin.ModelAdmin):
 
 class PlotDataAdmin(admin.ModelAdmin):
     model = PlotData
-    list_display = ["plot_key", "tree_species"]
+    list_display = ["plot_key", "tree_species", "blowdown"]
     search_fields = ["plot_key"]
     list_select_related = True
 
@@ -30,9 +30,6 @@ class PlotAdmin(admin.ModelAdmin):
         "plot_number",
         "location",
         "slope",
-        "alive_trees",
-        "dead_pine",
-        "bd_percent",
         "gross_volume_ha",
         "net_volume_ha",
         "timber_type"

@@ -96,6 +96,11 @@ class PlotData(models.Model):
         blank=True,
         null=True,
     )
+    blowdown = models.BooleanField(
+        default=0,
+        null=False,
+        blank=False
+    )
 
     def __str__(self):
         return str(self.species)
@@ -134,24 +139,7 @@ class Plot(models.Model):
         default=0,
         blank=False,
         null=False
-    )
-    alive_trees = models.IntegerField(
-        blank=False,
-        null=False,
-        default=0
-    )
-    dead_pine = models.IntegerField(
-        blank=False,
-        null=False,
-        default=0
-    )
-    bd_percent = models.DecimalField(
-        max_digits=9,
-        decimal_places=2,
-        default=0,
-        blank=False,
-        null=False
-    )
+    )    
     gross_volume_ha = models.DecimalField(
         max_digits=9,
         decimal_places=2,

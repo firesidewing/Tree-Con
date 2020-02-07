@@ -59,9 +59,6 @@ class PlotSerializer(serializers.ModelSerializer):
             "plot_number",
             "location",
             "slope",
-            "alive_trees",
-            "dead_pine",
-            "bd_percent",
             "gross_volume_ha",
             "net_volume_ha",
             "timber_type"
@@ -74,9 +71,6 @@ class PlotSerializer(serializers.ModelSerializer):
             "location_id": validated_data.get("location", None).id,
             "userkey_id": validated_data.get("userkey", None).id,
             "slope": validated_data.get("slope", None),
-            "alive_trees": validated_data.get("alive_trees", None),
-            "dead_pine": validated_data.get("dead_pine", None),
-            "bd_percent": validated_data.get("bd_percent", None),
             "gross_volume_ha": validated_data.get("gross_volume_ha", None),
             "net_volume_ha": validated_data.get("net_volume_ha", None),
             "timber_type": validated_data.get("timber_type", None)

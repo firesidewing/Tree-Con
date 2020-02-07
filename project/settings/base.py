@@ -32,8 +32,7 @@ except ImportError:
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-INSTALLED_APPS = [
-    "scout_apm.django",
+INSTALLED_APPS = [    
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -55,6 +54,9 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",
 ]
+
+if not DEBUG:
+    INSTALLED_APPS.insert(0, "scout_apm.django")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -147,12 +149,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = default_headers + ("content-disposition",)
 
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:8080",
-#     "http://localhost:8000",
-#     "http://127.0.0.1:8000",
-#     "https://tree-con.netlify.com/"
-# ]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://tree-con.netlify.com/"
+]
 
 SCOUT_NAME = "TreeCon"
 

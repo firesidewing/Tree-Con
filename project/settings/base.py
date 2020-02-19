@@ -9,22 +9,18 @@ except ImportError:
     import dj_database_url
     from decouple import config
 
-    SECRET_KEY = config('SECRET_KEY')
-    DEBUG = config('DEBUG', default=False, cast=bool)
-    ALLOWED_HOSTS = ['tree-con.herokuapp.com']
+    SECRET_KEY = config("SECRET_KEY")
+    DEBUG = config("DEBUG", default=False, cast=bool)
+    ALLOWED_HOSTS = ["tree-con.herokuapp.com"]
 
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL')
-        )
-    }
+    DATABASES = {"default": dj_database_url.config(default=config("DATABASE_URL"))}
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 10
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
+    X_FRAME_OPTIONS = "DENY"
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     pass
@@ -32,7 +28,7 @@ except ImportError:
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-INSTALLED_APPS = [    
+INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -40,17 +36,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
-    'django_filters',
+    "django_filters",
     "allauth",
     "allauth.account",
     "rest_auth",
     "admin_honeypot",
-    'django_extensions',
-    
+    "django_extensions",
     "core.apps.CoreConfig",
     "users.apps.UsersConfig",
 ]
@@ -60,9 +54,9 @@ if not DEBUG:
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    "django.contrib.sessions.middleware.SessionMiddleware",    
+    "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -90,10 +84,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -106,7 +102,7 @@ AUTHENTICATION_BACKENDS = (
 
 # allauth settings
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_USERNAME_REQUIRED = True
 
@@ -114,7 +110,6 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGOUT_ON_PASSWORD_CHANGE = False
 LOGIN_REDIRECT_URL = "/"
-
 
 
 LANGUAGE_CODE = "en-us"
@@ -125,19 +120,19 @@ USE_TZ = True
 
 SITE_ID = 1
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # static and media
 # if STATIC_ROOT ends with STATIC_URL, it makes nginx static serve config easy, likewise for media
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
@@ -161,15 +156,12 @@ SCOUT_NAME = "TreeCon"
 SHELL_PLUS_PRINT_SQL = True
 SHELL_PLUS_PRINT_SQL_TRUNCATE = None
 
-SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(
-  reindent_aligned=True,
-)
+SHELL_PLUS_SQLPARSE_FORMAT_KWARGS = dict(reindent_aligned=True,)
 
 sentry_sdk.init(
     dsn="https://ce935786a77d497db2db4258364905cb@sentry.io/2166643",
     integrations=[DjangoIntegration()],
-
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
+    send_default_pii=True,
 )

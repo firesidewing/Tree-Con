@@ -63,14 +63,14 @@ class PlotData(models.Model):
     dbh = models.IntegerField(
         blank=False,
         null=False,
+    )    
+    height = models.IntegerField(
+        blank=False,
+        null=False,
     )
     gross_piece_size = models.DecimalField(
         max_digits=9,
         decimal_places=3,
-        blank=False,
-        null=False,
-    )
-    height = models.IntegerField(
         blank=False,
         null=False,
     )
@@ -180,6 +180,27 @@ class Species(models.Model):
         blank=False,
         null=False,
         default=0
+    )
+
+    fiz = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True
+    )
+
+    vol_const_a = models.FloatField(
+        blank=True,
+        null=True
+    )
+
+    vol_const_b = models.FloatField(
+        blank=True,
+        null=True
+    )
+
+    vol_const_c = models.FloatField(
+        blank=True,
+        null=True
     )
 
     def __str__(self):

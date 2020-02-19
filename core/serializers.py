@@ -32,7 +32,7 @@ class PlotDataSerializer(serializers.ModelSerializer):
             "height",
             "gross_piece_size",
             "net_piece_size",
-            "blowdown"
+            "blowdown",
         )
 
     def create(self, validated_data):
@@ -63,7 +63,7 @@ class PlotSerializer(serializers.ModelSerializer):
             "slope",
             "gross_volume_ha",
             "net_volume_ha",
-            "timber_type"
+            "timber_type",
         )
         read_only_fields = ("userkey",)
 
@@ -75,7 +75,7 @@ class PlotSerializer(serializers.ModelSerializer):
             "slope": validated_data.get("slope", None),
             "gross_volume_ha": validated_data.get("gross_volume_ha", None),
             "net_volume_ha": validated_data.get("net_volume_ha", None),
-            "timber_type": validated_data.get("timber_type", None)
+            "timber_type": validated_data.get("timber_type", None),
         }
         plot, created = Plot.objects.update_or_create(
             location_id=d["location_id"],

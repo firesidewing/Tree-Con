@@ -32,7 +32,7 @@ class PlotAdmin(admin.ModelAdmin):
         "slope",
         "gross_volume_ha",
         "net_volume_ha",
-        "timber_type"
+        "timber_type",
     ]
     search_fields = ["userkey", "location"]
     list_select_related = True

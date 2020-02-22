@@ -105,11 +105,17 @@ class Species(models.Model):
 
     fiz = models.CharField(max_length=20, blank=True, null=True)
 
+    vol_type = models.CharField(max_length=20, blank=True, null=True)
+
     vol_const_a = models.FloatField(blank=True, null=True)
 
     vol_const_b = models.FloatField(blank=True, null=True)
 
     vol_const_c = models.FloatField(blank=True, null=True)
+
+    delta = models.FloatField(blank=True, null=True)
+
+    sigma_squared = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return str(self.species_name)

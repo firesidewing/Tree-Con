@@ -40,7 +40,17 @@ class PlotAdmin(admin.ModelAdmin):
 
 class SpeciesAdmin(admin.ModelAdmin):
     model = Species
-    list_display = ["id", "species_name", "loss_factor"]
+    list_display = [
+        "id",
+        "species_name",
+        "fiz",
+        "loss_factor",
+        "vol_type",
+        "vol_const_a",
+        "vol_const_b",
+        "vol_const_c",
+    ]
+    search_fields = ["species_name", "fiz", "vol_type"]
 
 
 admin.site.register(LatLong, LatLongAdmin)

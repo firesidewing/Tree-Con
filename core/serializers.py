@@ -93,7 +93,7 @@ class SpeciesSerializer(serializers.ModelSerializer):
             "id",
             "species_name",
             "loss_factor",
-            "fix",
+            "fiz",
             "vol_type",
             "vol_const_a",
             "vol_const_b",

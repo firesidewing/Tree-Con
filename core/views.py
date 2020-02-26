@@ -20,7 +20,7 @@ class LatLongViewSet(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Location.objects.all()
+    queryset = Location.objects.prefetch_related()
     serializer_class = LocationSerializer
     permission_classes = (permissions.Location,)
 
@@ -51,3 +51,5 @@ class SpeciesViewSet(viewsets.ModelViewSet):
     queryset = Species.objects.all()
     serializer_class = SpeciesSerializer
     permission_classes = (permissions.Species,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["bec"]

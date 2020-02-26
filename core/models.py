@@ -21,6 +21,21 @@ class Location(models.Model):
     baf = models.DecimalField(
         max_digits=12, decimal_places=2, blank=False, null=False, default=0
     )
+    bec = models.ForeignKey(
+        "core.Zone",
+        related_name="zone",
+        null=False,
+        on_delete=models.CASCADE,
+        default=0,
+    )
+
+    def __str__(self):
+        return str(self.name + " - " + self.bec.name)
+
+
+class Zone(models.Model):
+    short = models.CharField(max_length=10)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.name)
@@ -103,7 +118,7 @@ class Species(models.Model):
         max_digits=12, decimal_places=2, blank=False, null=False, default=0
     )
 
-    fiz = models.CharField(max_length=20, blank=True, null=True)
+    bec = models.CharField(max_length=20, blank=True, null=True)
 
     vol_type = models.CharField(max_length=20, blank=True, null=True)
 

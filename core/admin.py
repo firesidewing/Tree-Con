@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import LatLong, Location, PlotData, Plot, Species
+from .models import LatLong, Location, PlotData, Plot, Species, Zone
 
 
 class LatLongAdmin(admin.ModelAdmin):
@@ -12,8 +12,13 @@ class LatLongAdmin(admin.ModelAdmin):
 
 class LocationAdmin(admin.ModelAdmin):
     model = Location
-    list_display = ["name", "block", "license", "cutting_permit", "baf"]
+    list_display = ["name", "bec", "block", "license", "cutting_permit", "baf"]
     search_fields = ["name", "block", "license", "cutting_permit"]
+
+
+class ZoneAdmin(admin.ModelAdmin):
+    model = Zone
+    list_display = ["short", "name"]
 
 
 class PlotDataAdmin(admin.ModelAdmin):
@@ -43,14 +48,14 @@ class SpeciesAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "species_name",
-        "fiz",
+        "bec",
         "loss_factor",
         "vol_type",
         "vol_const_a",
         "vol_const_b",
         "vol_const_c",
     ]
-    search_fields = ["species_name", "fiz", "vol_type"]
+    search_fields = ["species_name", "bec", "vol_type"]
 
 
 admin.site.register(LatLong, LatLongAdmin)
@@ -58,3 +63,4 @@ admin.site.register(Location, LocationAdmin)
 admin.site.register(PlotData, PlotDataAdmin)
 admin.site.register(Plot, PlotAdmin)
 admin.site.register(Species, SpeciesAdmin)
+admin.site.register(Zone, ZoneAdmin)

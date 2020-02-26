@@ -15,9 +15,11 @@ class LatLongSerializer(serializers.ModelSerializer):
 
 
 class LocationSerializer(serializers.ModelSerializer):
+    bec_zone = serializers.CharField(source="bec.short", read_only=True)
+
     class Meta:
         model = Location
-        fields = ("id", "name", "block", "license", "cutting_permit", "baf")
+        fields = ("id", "bec_zone", "name", "block", "license", "cutting_permit", "baf")
 
 
 class PlotDataSerializer(serializers.ModelSerializer):
@@ -93,7 +95,7 @@ class SpeciesSerializer(serializers.ModelSerializer):
             "id",
             "species_name",
             "loss_factor",
-            "fiz",
+            "bec",
             "vol_type",
             "vol_const_a",
             "vol_const_b",

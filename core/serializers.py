@@ -40,6 +40,7 @@ class PlotDataSerializer(serializers.ModelSerializer):
             "gross_piece_size",
             "net_piece_size",
             "blowdown",
+            "alive"
         )
 
     def create(self, validated_data):
@@ -52,6 +53,7 @@ class PlotDataSerializer(serializers.ModelSerializer):
             "gross_piece_size": validated_data.get("gross_piece_size", None),
             "net_piece_size": validated_data.get("net_piece_size", None),
             "blowdown": validated_data.get("blowdown", None),
+            "alive": validated_data.get("alive", None),
         }
         plot_data, created = PlotData.objects.update_or_create(
             plot_key_id=d["plot_key_id"], tree=d["tree"], defaults=d,

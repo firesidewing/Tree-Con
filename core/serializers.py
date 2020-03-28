@@ -102,9 +102,21 @@ class SpeciesSerializer(serializers.ModelSerializer):
             "id",
             "species_name",
             "loss_factor",
+            "loss_factor_dead",
             "bec",
             "vol_type",
             "vol_const_a",
             "vol_const_b",
             "vol_const_c",
         )
+
+    def create(self, validated_data):
+        d = {
+            "species_name": validated_data.get("species_name", None),
+            "loss_factor": validated_data.get("loss_factor", None),
+            "loss_factor_dead": validated_data.get("loss_factor_dead", None),
+        }
+        Species.objects.filter(species_name__exact=d["species_name"]).update(
+            loss_factor=d["loss_factor"], loss_factor_dead=d["loss_factor_dead"]
+        )
+        return Species.objects.filter(species_name__exact=d["species_name"])[0]

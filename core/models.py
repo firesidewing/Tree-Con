@@ -117,6 +117,9 @@ class Species(models.Model):
     loss_factor = models.DecimalField(
         max_digits=12, decimal_places=2, blank=False, null=False, default=0
     )
+    loss_factor_dead = models.DecimalField(
+        max_digits=12, decimal_places=2, blank=False, null=False, default=0
+    )
 
     bec = models.CharField(max_length=20, blank=True, null=True)
 

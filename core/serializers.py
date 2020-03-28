@@ -47,7 +47,7 @@ class PlotDataSerializer(serializers.ModelSerializer):
         d = {
             "plot_key_id": validated_data.get("plot_key", None).id,
             "tree": validated_data.get("tree", None),
-            "tree_species": validated_data.get("tree_species", None).id,
+            "tree_species": validated_data.get("tree_species", None),
             "dbh": validated_data.get("dbh", None),
             "height": validated_data.get("height", None),
             "gross_piece_size": validated_data.get("gross_piece_size", None),
